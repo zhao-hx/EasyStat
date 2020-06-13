@@ -5,7 +5,7 @@
 \title{Variance test or non-parametric test results visualization, using boxbar}
 \usage{
 GroupBar(data = data_wt, num = c(4:6), result = result,
-  sig_show = "abc", loc = 1.5, ylimit = 1.2)
+  sig_show = "abc", ylimit = 1.2)
 }
 \arguments{
 \item{data}{a data.frame contain the input data}
@@ -14,11 +14,9 @@ GroupBar(data = data_wt, num = c(4:6), result = result,
 
 \item{result}{output from aovMcomper or KwWlx. You can also import result calculated from other software (a data frame)}
 
-\item{sig_show}{Distinctive display, "abc" or "line"}
+\item{sig_show}{Distinctive display, "abc" or we could find in the future}
 
-\item{loc}{Modify the position of the letter mark}
-
-\item{ylimit}{Adjust the position of the distinctive mark}
+\item{ylimit}{Adjust the y-axis coordinate range}
 }
 \value{
 list
@@ -40,5 +38,5 @@ Root exudates drive the soil-borne legacy of aboveground pathogen infection
 Microbiome 2018,DOI: \url{doi: 10.1186/s40168-018-0537-x}
 }
 \author{
-Contact: Tao Wen \email{2018203048@njau.edu.cn} Jun Yuan \email{2018203048@njau.edu.cn}
+Contact: Tao Wen \email{2018203048@njau.edu.cn} Jun Yuan \email{junyuan@njau.edu.cn}
 }

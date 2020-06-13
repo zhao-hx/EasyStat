@@ -4,6 +4,7 @@
 #' @param  i col index wtich need to test
 #' @param sig_show Distinctive display, "abc" or "line"
 #' @param result output from aovMcomper or KwWlx. You can also import result calculated from other software (a data frame)
+#' @param  ns Logical value, whether to display insignificant marks
 #' @examples
 #' # data(data_wt)
 #' result = KwWlx(data = data_wt, i= 4)
@@ -12,7 +13,7 @@
 #' result[[1]]
 #'
 #' @return list
-#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{2018203048@@njau.edu.cn}
+#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{junyuan@@njau.edu.cn}
 #' @references
 #'
 #' Yuan J, Zhao J, Wen T, Zhao M, Li R, Goossens P, Huang Q, Bai Y, Vivanco JM, Kowalchuk GA, Berendsen RL, Shen Q
@@ -21,10 +22,8 @@
 #' @export
 
 
+aovMuiBoxBarP = function(data = data_wt, i= 3,sig_show ="line",result = result,ns = FALSE){
 
-aovMuiBoxBarP = function(data = data_wt, i= 3,sig_show ="line",result = result){
-
-  data = data
   aa = result
   print(i)
   name_i = colnames(data[i])
@@ -60,7 +59,7 @@ p = ggplot() +
   geom_jitter(aes(x=group, y=dd, fill=group),data_box,position=position_jitter(0.17), size=4, alpha=0.7,pch = 21,color = "black")+
   labs(
     y=name_i)
-# p
+ # p
 # geom_hline(aes(yintercept=mean(data_box$dd)), colour="black", linetype=2) +
 # geom_vline(aes(xintercept=0), colour="black", linetype="dashed")
 head(data_box)
@@ -96,10 +95,20 @@ if (sig_show == "line") {
 
   }
 
+  # ns = TRUE
+  # sig_lis[3] = "no_sig"
+  # sig_lis[4] = "no_sig"
+
+  if (ns == TRUE) {
+    #-remove the ns
+    xxxx[as.character((1:length(sig_lis))[sig_lis =="no_sig"])] = NULL
+    sig_lis = sig_lis[sig_lis != "no_sig"]
+  }
+
 
   p = p +
     ggsignif::geom_signif(aes(x=group, y=dd, fill=group),data_box,comparisons = xxxx, annotations=sig_lis,
-                y_position = (seq(from=1, to=max(data_box$dd)/4,length.out=dim(zuhe)[2]) + max(data_box$dd)), tip_length = rep(0.03,dim(zuhe)[2]),color = "black")
+                y_position = (seq(from=1, to=max(data_box$dd)/4,length.out=length(sig_lis)) + max(data_box$dd)), tip_length = rep(0.03,length(sig_lis)),color = "black")
   p
 }
 

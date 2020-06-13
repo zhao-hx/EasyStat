@@ -4,6 +4,7 @@
 #' @param  i col index wtich need to test
 #' @param sig_show Distinctive display, "abc" or "line"
 #' @param result output from aovMcomper or KwWlx. You can also import result calculated from other software (a data frame)
+#' @param  ns Logical value, whether to display insignificant marks
 #' @examples
 #' # data(data_wt)
 #' result = KwWlx(data = data_wt, i= 4)
@@ -11,7 +12,7 @@
 #' # utput result
 #' PlotresultBar[[1]]
 #' @return list
-#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{2018203048@@njau.edu.cn}
+#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{junyuan@@njau.edu.cn}
 #' @references
 #'
 #' Yuan J, Zhao J, Wen T, Zhao M, Li R, Goossens P, Huang Q, Bai Y, Vivanco JM, Kowalchuk GA, Berendsen RL, Shen Q
@@ -22,7 +23,7 @@
 
 
 ###----使用方差检验结果和多重比较结果做展示：  柱状图展示
-aovMuiBarPlot = function(data = data_wt, i= 3,sig_show ="line",result = result){
+aovMuiBarPlot = function(data = data_wt, i= 3,sig_show ="line",result = result,ns = FALSE){
 
   name_i = colnames(data[i])
   # the mean and variance
@@ -68,6 +69,12 @@ aovMuiBarPlot = function(data = data_wt, i= 3,sig_show ="line",result = result){
 
     }
 
+    if (ns == TRUE) {
+      #-remove the ns
+      xxxx[as.character((1:length(sig_lis))[sig_lis =="no_sig"])] = NULL
+      sig_lis = sig_lis[sig_lis != "no_sig"]
+    }
+
     p = p +
       ggsignif::geom_signif(comparisons = xxxx, annotations=sig_lis,
                   y_position = (seq(from=1, to=max(aa$mean)/4,length.out=dim(zuhe)[2]) + max(aa$mean)), tip_length = rep(0.03,dim(zuhe)[2]),color = "black")
@@ -81,8 +88,7 @@ aovMuiBarPlot = function(data = data_wt, i= 3,sig_show ="line",result = result){
     p = p + geom_text(aes(label = groups,y=ymax, x = group,vjust = -0.3,size = 6))
     p
   }
-  #as.vector(as.matrix(data[i]))为进行差异分析的一组数据
-  # p=p+Mytheme
+
   p
 
   if (length(unique(data$group))>3){	p=p+theme(axis.text.x=element_text(angle=45,vjust=1, hjust=1))}

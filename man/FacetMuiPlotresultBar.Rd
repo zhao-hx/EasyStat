@@ -5,7 +5,7 @@
 \title{Use facets to show the results of variance analysis, bar plot selected}
 \usage{
 FacetMuiPlotresultBar(data = data_wt, num = c(4:6), result = result,
-  sig_show = "abc", ncol = 3, loc = 1.5)
+  sig_show = "abc", ncol = 3, ...)
 }
 \arguments{
 \item{data}{a data.frame contain the input data;Enter the data frame, the first column is the sample number, the second column is the group, note that the group label must be set to group, and the third column and later are the indicators for measurement or collection.}
@@ -17,8 +17,6 @@ FacetMuiPlotresultBar(data = data_wt, num = c(4:6), result = result,
 \item{sig_show}{Distinctive display, "abc" or "line"}
 
 \item{ncol}{If you choose faceted display, choose to place several graphics per line}
-
-\item{loc}{cahnge the label of "abc" to Suitable location}
 }
 \value{
 list
@@ -38,5 +36,5 @@ Root exudates drive the soil-borne legacy of aboveground pathogen infection
 Microbiome 2018,DOI: \url{doi: 10.1186/s40168-018-0537-x}
 }
 \author{
-Contact: Tao Wen \email{2018203048@njau.edu.cn} Jun Yuan \email{2018203048@njau.edu.cn}
+Contact: Tao Wen \email{2018203048@njau.edu.cn} Jun Yuan \email{junyuan@njau.edu.cn}
 }

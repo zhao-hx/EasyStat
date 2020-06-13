@@ -5,14 +5,13 @@
 #' @param result output from aovMcomper or KwWlx. You can also import result calculated from other software (a data frame)
 #' @param sig_show Distinctive display, "abc" or "line"
 #' @param ncol If you choose faceted display, choose to place several graphics per line
-#' @param loc cahnge the label of "abc" to Suitable location
 #' @examples
 #' # data(data_wt)
 #' result = MuiKwWlx(data = data_wt,num = c(4:6))
 #' result1 = FacetMuiPlotresultBar(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 2 )
 #' result1[[1]]
 #' @return list
-#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{2018203048@@njau.edu.cn}
+#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{junyuan@@njau.edu.cn}
 #' @references
 #'
 #' Yuan J, Zhao J, Wen T, Zhao M, Li R, Goossens P, Huang Q, Bai Y, Vivanco JM, Kowalchuk GA, Berendsen RL, Shen Q
@@ -22,9 +21,8 @@
 
 
 
-FacetMuiPlotresultBar = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3,loc = 1.5 ){
+FacetMuiPlotresultBar = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3,... ){
   N = num[1]
-
   name = colnames(data[N])
 
   as = result[match( name,colnames(result))]
@@ -56,33 +54,27 @@ FacetMuiPlotresultBar = function(data = data_wt,num = c(4:6),result = result,sig
 
     A = rbind(A,p)
   }
-  head(A)
+  # head(A)
 
   # a = max(A$SD)*1.2
-  A$SD1 = A$SD*loc
-  a = max(A$SD1)
 
   p<-ggplot(A, aes(x=group , y=mean ))+
     geom_bar(aes(colour= group,fill = group),stat = "identity", width = 0.4,position = "dodge") +
-
+    geom_bar(data = A, aes(x=1 , y= (mean + SD)*1.1),stat = "identity", width = 0.4,position = "dodge",alpha = 0) +
     geom_errorbar(aes(ymin=mean - SD,
                       ymax=mean+SD),
                   colour="black",width=0.1,size = 1)+
 
-    scale_y_continuous(expand = c(0,0))+#,limits = c(0,a)
+    scale_y_continuous(expand = c(0,0))+#
     labs(
       # x=paste(name_i,"of all group", sep = "_"),
       # y=name_i
       # title = paste("Normality test",p1,"Homogeneity of variance",p2,sep = ":")
     ) +
-    # theme_classic()+
-    geom_text(data=A, aes(x=group, y=mean +SD1 ,label=groups))+
-    guides(color=guide_legend(title = NULL),shape=guide_legend(title = NULL))+facet_wrap(.~name,scales="free_y",ncol  = ncol)
-  p
+    geom_text(data=A, aes(x=group, y=mean + SD,label=groups),vjust = -1)+
+    guides(color=guide_legend(title = NULL),shape=guide_legend(title = NULL)) + facet_wrap(.~name,scales="free_y",ncol  = ncol)
 
-  # p=p+Mytheme
   p
-
   if (length(unique(data$group))>3){	p=p+theme(axis.text.x=element_text(angle=45,vjust=1, hjust=1))}
   p
 

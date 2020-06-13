@@ -5,7 +5,7 @@
 \title{Variance test or non-parametric test results visualization, using histogram}
 \usage{
 aovMuiBarPlot(data = data_wt, i = 3, sig_show = "line",
-  result = result)
+  result = result, ns = FALSE)
 }
 \arguments{
 \item{data}{a data.frame contain the input data}
@@ -15,6 +15,8 @@ aovMuiBarPlot(data = data_wt, i = 3, sig_show = "line",
 \item{sig_show}{Distinctive display, "abc" or "line"}
 
 \item{result}{output from aovMcomper or KwWlx. You can also import result calculated from other software (a data frame)}
+
+\item{ns}{Logical value, whether to display insignificant marks}
 }
 \value{
 list
@@ -35,5 +37,5 @@ Root exudates drive the soil-borne legacy of aboveground pathogen infection
 Microbiome 2018,DOI: \url{doi: 10.1186/s40168-018-0537-x}
 }
 \author{
-Contact: Tao Wen \email{2018203048@njau.edu.cn} Jun Yuan \email{2018203048@njau.edu.cn}
+Contact: Tao Wen \email{2018203048@njau.edu.cn} Jun Yuan \email{junyuan@njau.edu.cn}
 }

@@ -4,6 +4,7 @@
 #' @param  i col index wtich need to test
 #' @param sig_show Distinctive display, "abc" or "line"
 #' @param result output from aovMcomper or KwWlx. You can also import result calculated from other software (a data frame)
+#' @param  ns Logical value, whether to display insignificant marks
 #' @examples
 #' # data(data_wt)
 #' result = KwWlx(data = data_wt, i= 4)
@@ -12,7 +13,7 @@
 #' p = PlotresultBox[[1]]
 #' p
 #' @return data frame
-#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{2018203048@@njau.edu.cn}
+#' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn} Jun Yuan \email{junyuan@@njau.edu.cn}
 #' @references
 #'
 #' Yuan J, Zhao J, Wen T, Zhao M, Li R, Goossens P, Huang Q, Bai Y, Vivanco JM, Kowalchuk GA, Berendsen RL, Shen Q
@@ -22,7 +23,7 @@
 
 
 ###----使用方差检验结果和多重比较结果做展示：  箱线图展示
-aovMuiBoxP = function(data = data_wt, i= 3,sig_show ="line",result = result){
+aovMuiBoxP = function(data = data_wt, i= 3,sig_show ="line",result = result,ns = FALSE){
   aa = result
   name_i = colnames(data[i])
   data_box = data[c(1,2,i)]
@@ -81,6 +82,11 @@ aovMuiBoxP = function(data = data_wt, i= 3,sig_show ="line",result = result){
 
     }
 
+    if (ns == TRUE) {
+      #-remove the ns
+      xxxx[as.character((1:length(sig_lis))[sig_lis =="no_sig"])] = NULL
+      sig_lis = sig_lis[sig_lis != "no_sig"]
+    }
 
 
     p = p +
