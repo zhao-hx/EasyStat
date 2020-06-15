@@ -15,6 +15,7 @@ Imports:
 	tidyr,
 	multcomp,
 	agricolae,
-	ggpubr
+	ggpubr,
+	multcompView
 URL: https://github.com/taowenmicro/EasyStat
 BugReports: https://github.com/taowenmicro/EasyStat/issues
