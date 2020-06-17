@@ -50,7 +50,7 @@ aovMuiBarPlot = function(data = data_wt, i= 3,sig_show ="line",result = result,n
       y=name_i
       # title = paste("Normality test",p1,"Homogeneity of variance",p2,sep = ":")
     )
-  p
+  line = list()
   if (sig_show == "line") {
     zuhe = combn(aa$group,2)
     xxxx <- tapply(zuhe,rep(1:ncol(zuhe),each=nrow(zuhe)),function(i)i)
@@ -75,6 +75,8 @@ aovMuiBarPlot = function(data = data_wt, i= 3,sig_show ="line",result = result,n
       sig_lis = sig_lis[sig_lis != "no_sig"]
     }
 
+    line = list(comparisons = xxxx,annotations=sig_lis,y_position = (seq(from=1, to=max(aa$mean)/4,length.out=dim(zuhe)[2]) + max(aa$mean)),tip_length = rep(0.03,dim(zuhe)[2]))
+
     p = p +
       ggsignif::geom_signif(comparisons = xxxx, annotations=sig_lis,
                   y_position = (seq(from=1, to=max(aa$mean)/4,length.out=dim(zuhe)[2]) + max(aa$mean)), tip_length = rep(0.03,dim(zuhe)[2]),color = "black")
@@ -93,5 +95,5 @@ aovMuiBarPlot = function(data = data_wt, i= 3,sig_show ="line",result = result,n
 
   if (length(unique(data$group))>3){	p=p+theme(axis.text.x=element_text(angle=45,vjust=1, hjust=1))}
 
-  return(list(p,wentao))
+  return(list(p,wentao,aa,line))
 }

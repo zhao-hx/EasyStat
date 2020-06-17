@@ -13,7 +13,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      fig.width = 7,
+                      fig.width = 12,
                       fig.height = 5,
                       fig.align = "center",
                       warning = FALSE,
@@ -40,12 +40,9 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ```{R eval=FALSE, include=FALSE}
 library(devtools)
-install_github("taowenmicro/EasyStat")
-
-
+remotes::install_github("taowenmicro/EasyStat")
 # 如果国外不可用，则使用国内码云安装
 remotes::install_git('https://gitee.com/wentaomicro/EasyStat')
-
 ```
 
 导入包和数据，数据均来自真实试验和文公开文献下载，通过调整分组加入。
@@ -57,11 +54,10 @@ library(ggplot2)# 用于作图
 library("dplyr")# 用于数据处理
 
 
-#使用内置数据1
-data(data_wt)
-
-#内置数据2
-data(env)
+# #使用内置数据1
+# data(data_wt)
+# #内置数据2
+# data(env)
 
 
 ```
@@ -77,10 +73,20 @@ data(env)
 # 使用?NorNorCVTest查看帮助信息
 ##使用案例
 NorCV = NorNorCVTest(data = data_wt, i= 4,method_cv = "leveneTest")
+
 #提取正态检验结果
 NorCV[[1]]
+
+# No         Name         W   p.value norm.test
+# 1            1           CF 0.9385422 0.6474760      Norm
+# 2            2           CK 0.9306138 0.5848500      Norm
+# 3            3          Rhi 0.9651627 0.8585061      Norm
+# 4            4           WT 0.9756280 0.9278774      Norm
+# 5 Test Method: Shapiro-Wilk        NA        NA      <NA>
+
 #提取方差齐性检验结果
 NorCV[[2]]
+# [1] 0.247
 
 ```
 
@@ -95,12 +101,34 @@ norm.test会按照分组告诉大家是否符合正态分布。
 - method_Mc:选择需要使用的多重比较方法，这里又多种方法可供选择：method_Mc == "LSD";method_Mc == "SNK";method_Mc == "Duncan";method_Mc == "scheffe"
 
 ```{R}
+
 # ?aovMcomper
-result= aovMcomper (data = data_wt, i= 5,method_Mc = "Tukey")
+
+result= aovMcomper (data = data_wt, i= 6,method_Mc = "Tukey")
+
+
+
 # 提取多重比较结果
 result[[1]]
+# groups group
+# CF      a     CF
+# CK      a     CK
+# Rhi      b   Rhi
+# WT      a     WT
 #提取方差检验结果
 result[[2]]
+
+# Call:
+#   aov(formula = count ~ group, data = ss)
+# 
+# Terms:
+#   group    Residuals
+# Sum of Squares  169573500000   3387000000
+# Deg. of Freedom            3           20
+# 
+# Residual standard error: 13013.45
+# Estimated effects may be unbalanced
+
 ```
 
 结果中多重比较的展示全部使用字母表示了，虽然许多多种比较方法默认展示方式不同，但是我已经在包中将这些展示方式调整一致为字母。
@@ -117,12 +145,28 @@ result[[2]]
 
 ```{R}
 # ?KwWlx
-res = KwWlx(data = data_wt, i= 5)
+res = KwWlx(data = data_wt, i= 6)
+
 # 调用非参数两两比较结果：字母标记展示
 res[[1]]
+
+# groups group
+# CF      ab    CF
+# CK       a    CK
+# Rhi      c   Rhi
+# WT       b    WT
+
 #表格展示两两之间差异结果
 res[[2]]
 
+# .y.   group1 group2       p p.adj p.format p.signif method  
+# <chr> <chr>  <chr>    <dbl> <dbl> <chr>    <chr>    <chr>   
+#   1 count CF     CK     0.123   0.25  0.1228   ns       Wilcoxon
+# 2 count CF     Rhi    0.00470 0.028 0.0047   **       Wilcoxon
+# 3 count CF     WT     0.864   0.86  0.8643   ns       Wilcoxon
+# 4 count CK     Rhi    0.00470 0.028 0.0047   **       Wilcoxon
+# 5 count CK     WT     0.0488  0.15  0.0488   *        Wilcoxon
+# 6 count Rhi    WT     0.00470 0.028 0.0047   **       Wilcoxon
 
 ```
 
@@ -136,9 +180,12 @@ res[[2]]
 ```{R}
 # ?aovMuiBarPlot
 ###----使用方差检验结果和多重比较结果做展示：  柱状图展示
-PlotresultBar = aovMuiBarPlot(data = data_wt, i= 5,sig_show ="abc",result = result[[1]])
+PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="abc",result = result[[1]])
 #提取结果
-PlotresultBar[[1]]
+p <- PlotresultBar[[1]]
+
+ggsave("1.png",p)
+
 #提取方差分析或非参数检验结果
 PlotresultBar[[2]]
 ```
@@ -146,9 +193,10 @@ PlotresultBar[[2]]
 ```{R}
 # ?aovMuiBarPlot
 ###----使用方差检验结果和多重比较结果做展示：  柱状图展示
-PlotresultBar = aovMuiBarPlot(data = data_wt, i= 5,sig_show ="line",result = result[[1]])
+PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="line",result = result[[1]])
 #提取结果
-PlotresultBar[[1]]
+p <- PlotresultBar[[1]]
+ggsave("2.png",p)
 #提取方差分析或非参数检验结果
 PlotresultBar[[2]]
 ```
@@ -159,7 +207,8 @@ PlotresultBar[[2]]
 ###----使用方差检验结果和多重比较结果做展示：  柱状图展示
 PlotresultBar = aovMuiBarPlot(data = data_wt, i= 5,sig_show ="line",result = result[[1]],ns =TRUE)
 #提取结果
-PlotresultBar[[1]]
+p <- PlotresultBar[[1]]
+ggsave("3.png",p)
 #提取方差分析或非参数检验结果
 PlotresultBar[[2]]
 ```
@@ -185,12 +234,12 @@ PlotresultBar[[2]]
 ```{R}
 # ?aovMuiBoxP
 # #使用案例
-PlotresultBox = aovMuiBoxP(data = data_wt, i= 5,sig_show ="abc",result = result[[1]])
+PlotresultBox = aovMuiBoxP(data = data_wt, i= 6,sig_show ="abc",result = result[[1]])
 # 提取检验结果
 PlotresultBox[[2]]
 #提取图片
 p = PlotresultBox[[1]]
-p
+ggsave("4.png",p)
 
 ```
 
@@ -198,12 +247,12 @@ p
 ```{R}
 # ?aovMuiBoxP
 # #使用案例
-PlotresultBox = aovMuiBoxP(data = data_wt, i= 5,sig_show ="line",result = result[[1]])
+PlotresultBox = aovMuiBoxP(data = data_wt, i= 6,sig_show ="line",result = result[[1]])
 # 提取检验结果
 PlotresultBox[[2]]
 #提取图片
 p = PlotresultBox[[1]]
-p
+ggsave("5.png",p)
 
 ```
 
@@ -211,12 +260,12 @@ p
 ```{R}
 # ?aovMuiBoxP
 # #使用案例
-PlotresultBox = aovMuiBoxP(data = data_wt, i= 5,sig_show ="line",result = result[[1]],ns = TRUE)
+PlotresultBox = aovMuiBoxP(data = data_wt, i= 6,sig_show ="line",result = result[[1]],ns = TRUE)
 # 提取检验结果
 PlotresultBox[[2]]
 #提取图片
 p = PlotresultBox[[1]]
-p
+ggsave("6.png",p)
 
 ```
 
@@ -227,10 +276,10 @@ p
 result= aovMcomper (data = data_wt, i= 6,method_Mc = "Tukey")
 # # 提取多重比较结果
 result[[1]]
-PlotresultBox = aovMuiBoxBarP(data = data_wt, i= 6,sig_show ="line",result = result[[1]],ns = TRUE)
+PlotresultBox = aovMuiBoxBarP(data = data_wt, i= 6,sig_show ="abc",result = result[[1]],ns = TRUE)
 #提取图片
 p = PlotresultBox[[1]]
-p
+ggsave("7.png",p)
 ```
 
 ```{R}
@@ -238,16 +287,18 @@ p
 PlotresultBox = aovMuiBoxBarP(data = data_wt, i= 6,sig_show ="line",result = result[[1]],ns = FALSE)
 #提取图片
 p = PlotresultBox[[1]]
-p
+
+ggsave("8.png",p)
 ```
 
 EasyStat包为什么能完美解决差异分析呢.因为他比你想象的要强大。下面使用连线形式展示差异，显著的差异按照标注星号，不显著的标注ns。
 
 ```{R}
-PlotresultBox = aovMuiBoxBarP(data = data_wt, i= 5,sig_show ="line",result = result[[1]])
+PlotresultBox = aovMuiBoxBarP(data = data_wt, i= 6,sig_show ="line",result = result[[1]],ns = TRUE)
 #提取图片
 p = PlotresultBox[[1]]
 p
+ggsave("9.png",p)
 ```
 
 ## 多指标模式
@@ -390,10 +441,11 @@ MuiPlotReBoxBar(data = data_wt,num = c(4:8),result = result,sig_show ="line")
 ```{R}
 # ?FacetMuiPlotresultBar
 # # #使用案例
-result = MuiaovMcomper(data = data_wt,num = c(4:11),method_Mc = "Tukey")
+result = MuiaovMcomper(data = data_wt,num = c(4:7),method_Mc = "Tukey")
 result
-result1 = FacetMuiPlotresultBar(data = data_wt,num = c(4:11),result = result,sig_show ="abc",ncol = 4 )
-result1[[1]]
+result1 = FacetMuiPlotresultBar(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4 )
+p <- result1[[1]]
+ggsave("10.png",p,width = 12,height = 6)
 
 ```
 
@@ -413,12 +465,12 @@ result1[[1]]
 ```{R}
 # ?FacetMuiPlotresultBox
 # #使用案例
-result = MuiKwWlx(data = data_wt,num = c(4:11))
+result = MuiKwWlx(data = data_wt,num = c(4:7))
 result
 #
-result1 = FacetMuiPlotresultBox(data = data_wt,num = c(4:11),result = result,sig_show ="abc",ncol = 4 )
-result1[[1]]
-
+result1 = FacetMuiPlotresultBox(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4 )
+p <- result1[[1]]
+ggsave("11.png",p,width = 15,height = 6)
 ```
 
 
@@ -431,11 +483,12 @@ result1[[1]]
 
 ```{R}
 # #使用案例
-result = MuiKwWlx(data = data_wt,num = c(4:11))
+result = MuiKwWlx(data = data_wt,num = c(4:7))
 result
 #
-result1 = FacetMuiPlotReBoxBar(data = data_wt,num = c(4:11),result = result,sig_show ="abc",ncol = 4 )
-result1[[1]] 
+result1 = FacetMuiPlotReBoxBar(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4 )
+p <- result1[[1]] 
+ggsave("12.png",p,width = 15,height = 6)
 
 ```
 
@@ -453,8 +506,8 @@ colnames(data_wt)
 result = MuiKwWlx(data = data_wt,num = c(8:10))
 result = GroupBar(data = data_wt,num = c(8:10),result = result,sig_show ="abc",ylimit = 1.2)
 # output result
-result[[1]]
-
+p <- result[[1]]
+ggsave("13.png",p)
 
 ```
 
@@ -483,6 +536,8 @@ p<-ggplot(A, aes(x=group , y=mean,group = name ))+
     guides(color=guide_legend(title = NULL),shape=guide_legend(title = NULL))
 p
 
+ggsave("14.png",p,width = 12,height = 6)
+
 ```
 
 
@@ -509,6 +564,8 @@ result = SingleStat(data = data_wt,plot = "bar",method_Mc = "Tukey",i= 4,sig_sho
 p = result[[1]]
 p
 
+ggsave("15.png",p,width = 6,height = 6)
+
 ```
 
 
@@ -528,6 +585,7 @@ result[[3]]
 # #导出图片
 p = result[[1]]
 p
+ggsave("16.png",p,width = 6,height = 6)
 
 
 ```
@@ -548,6 +606,8 @@ result[[3]]
 p = result[[1]]
 p
 
+ggsave("17.png",p,width = 6,height = 6)
+
 
 ```
 
@@ -561,32 +621,41 @@ p
 ```{R}
 # ?MuiStat
 #使用案例
-result = MuiStat(data = data_wt,num = c(4:11),method_cv = "leveneTest",method_Mc = "Tukey",sig_show  = "abc",ncol = 4,plot = "box",plottype = "mui")
-result[[1]]
-
+result = MuiStat(data = data_wt,num = c(4:7),method_cv = "leveneTest",method_Mc = "Tukey",sig_show  = "abc",ncol = 4,plot = "box",plottype = "mui")
+p <- result[[1]]
+p
 # 提取方差检测的列
 result$aov
 # 提取f非参数检测的列
 result$wlx
 # 提取差异检测结果
 result$table
+
+ggsave("18.png",p,width = 16,height = 6)
+
 ```
 
 柱状图
 
 ```{R}
 
-result = MuiStat(data = data_wt,num = c(4:11),method_cv = "leveneTest",method_Mc = "Tukey",sig_show  = "abc",ncol = 4,plot = "bar",plottype = "mui")
-result[[1]]
+result = MuiStat(data = data_wt,num = c(4:7),method_cv = "leveneTest",method_Mc = "Tukey",sig_show  = "abc",ncol = 4,plot = "bar",plottype = "mui")
+p <- result[[1]]
+
+ggsave("19.png",p,width = 16,height = 6)
+
 
 ```
 
 ```{R}
 
-result = MuiStat(data = data_wt,num = c(4:11),method_cv = "leveneTest",method_Mc = "Tukey",sig_show  = "abc",ncol = 4,plot = "boxbar",plottype = "mui")
-result[[1]]
+result = MuiStat(data = data_wt,num = c(4:7),method_cv = "leveneTest",method_Mc = "Tukey",sig_show  = "abc",ncol = 4,plot = "boxbar",plottype = "mui")
+p <- result[[1]]
+ggsave("20.png",p,width = 16,height = 6)
 
 ```
+
+
 
 data：输入数据框，第一列为样本编号，第二列为分组，注意分组标签必须设定为group，第三列以后就是妮妮测定或者收集的指标了
 

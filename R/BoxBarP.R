@@ -114,6 +114,6 @@ if (sig_show == "line") {
 
 # p=p+Mytheme
 p
-return(list(p,data_box))
+return(list(p,data_box,databar))
 }
 

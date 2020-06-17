@@ -65,7 +65,7 @@ aovMuiBoxP = function(data = data_wt, i= 3,sig_show ="line",result = result,ns =
   x <-lis
   my_comparisons <- tapply(x,rep(1:ncol(x),each=nrow(x)),function(i)i)
 
-
+  line = list()
   if (sig_show == "line") {
     zuhe = combn(aa$group,2)
     xxxx <- tapply(zuhe,rep(1:ncol(zuhe),each=nrow(zuhe)),function(i)i)
@@ -88,7 +88,7 @@ aovMuiBoxP = function(data = data_wt, i= 3,sig_show ="line",result = result,ns =
       sig_lis = sig_lis[sig_lis != "no_sig"]
     }
 
-
+    line = list(comparisons = xxxx,annotations=sig_lis,y_position = (seq(from=1, to=max(data_box$dd)/4,length.out=dim(zuhe)[2]) + max(data_box$dd)),tip_length = rep(0.03,dim(zuhe)[2]))
     p = p +
       ggsignif::geom_signif(comparisons = xxxx, annotations=sig_lis,
                   y_position = (seq(from=1, to=max(data_box$dd)/4,length.out=dim(zuhe)[2]) + max(data_box$dd)), tip_length = rep(0.03,dim(zuhe)[2]),color = "black")
