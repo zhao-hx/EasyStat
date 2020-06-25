@@ -16,6 +16,8 @@ Imports:
 	multcomp,
 	agricolae,
 	ggpubr,
-	multcompView
+	multcompView,
+	reshape2,
+	plyr
 URL: https://github.com/taowenmicro/EasyStat
 BugReports: https://github.com/taowenmicro/EasyStat/issues

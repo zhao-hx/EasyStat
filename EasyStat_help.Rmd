@@ -674,10 +674,24 @@ ncol：代表分面展示每一行放几张图
 plottype：输出图形是分面展示plottype =mui，还是单张展示:plottype == "single"
 
 
+```{R}
+result = MuiKwWlx(data = data_wt,num = c(4,9,8))
+res <- MuiPlotStackBar(data = data,i = c(4,9,8) ,result = result)
 
 
+res[[1]]
+```
 
 
+```{R}
+
+# 由于数据已经标准化了，这里我们改编一下
+
+env$env4 <- env$env4^2
+env$env5 <- env$env5^2
+result = MuiKwWlx(data = env,num = c(3,4))
+res <- MuiPlotStackBar(data = env,i = c(3,4) ,result = result,errbar = FALSE)
+```
 
 
 
