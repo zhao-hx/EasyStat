@@ -110,6 +110,9 @@ result= aovMcomper (data = data_wt, i= 6,method_Mc = "Tukey")
 
 # 提取多重比较结果
 result[[1]]
+
+
+
 # groups group
 # CF      a     CF
 # CK      a     CK
@@ -178,13 +181,27 @@ res[[2]]
 在这个包中将差异检测和出图部分分离，方便选择合适的图表和差异可视化的策略。最终要的参数是result ：为前面差异分析结果中的第一个表单，格式为第一列差异显著字母，第二列分组标签，列名，分组标签。如果只是用可视化的函数，直接从外面导入类似数据即可。
 
 ```{R}
+
 # ?aovMuiBarPlot
 ###----使用方差检验结果和多重比较结果做展示：  柱状图展示
 PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="abc",result = result[[1]])
 #提取结果
 p <- PlotresultBar[[1]]
+p
 
-ggsave("1.png",p)
+```
+
+```{R}
+
+datord <- ord_sig(data = result[[1]],ID = "groups")
+
+# ?aovMuiBarPlot
+###----使用方差检验结果和多重比较结果做展示：  柱状图展示
+PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="abc",result =datord)
+#提取结果
+p <- PlotresultBar[[1]]
+p
+# ggsave("1.png",p)
 
 #提取方差分析或非参数检验结果
 PlotresultBar[[2]]
@@ -196,7 +213,12 @@ PlotresultBar[[2]]
 PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="line",result = result[[1]])
 #提取结果
 p <- PlotresultBar[[1]]
-ggsave("2.png",p)
+
+
+p
+
+
+# ggsave("2.png",p)
 #提取方差分析或非参数检验结果
 PlotresultBar[[2]]
 ```
@@ -232,13 +254,18 @@ PlotresultBar[[2]]
 - result：代表显著性差异分析结果，是一个数据框，第一列是显著性差异字母，第二列是分组group
 
 ```{R}
+
+datord <- ord_sig(data = result[[1]],ID = "groups")
+
 # ?aovMuiBoxP
 # #使用案例
-PlotresultBox = aovMuiBoxP(data = data_wt, i= 6,sig_show ="abc",result = result[[1]])
+PlotresultBox = aovMuiBoxP(data = data_wt, i= 6,sig_show ="abc",result = datord)
 # 提取检验结果
 PlotresultBox[[2]]
 #提取图片
 p = PlotresultBox[[1]]
+p
+
 ggsave("4.png",p)
 
 ```
