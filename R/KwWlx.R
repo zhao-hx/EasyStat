@@ -21,6 +21,7 @@ KwWlx = function(data = data_wt, i= 3){
 
   ss <- data %>%
     dplyr::select("group",count = i)
+
   # kruskal.test
   krusk=ggpubr::compare_means(count ~ group, data=ss, method = "kruskal.test")
   # krusk = kruskal.test(count ~ group, data=ss)
@@ -31,8 +32,9 @@ KwWlx = function(data = data_wt, i= 3){
 
   krusk <- ggpubr::compare_means(count ~ group, data=ss, method = "wilcox.test")
   xx=as.data.frame(krusk)
-  xx$group1
-  wilcox_levels = paste(xx$group1,xx$group2,sep = "-")
+  # xx$group1
+  # wilcox_levels = paste(xx$group1,xx$group2,sep = "-")
+  # str(wilcox_levels )
   wilcox_levels = xx$p
   names(wilcox_levels) =  paste(xx$group1,xx$group2,sep = "-")
   wilcox.labels <- data.frame(multcompView::multcompLetters(wilcox_levels, threshold = 0.05)['Letters'])
@@ -40,5 +42,15 @@ KwWlx = function(data = data_wt, i= 3){
   aa = wilcox.labels
   aa$group = row.names(aa)
   aa
+
+  da <- ss %>%
+    dplyr::group_by(group) %>%
+    dplyr::summarise( mean = mean(count))  %>%
+    dplyr::arrange(desc(mean)) %>%
+    as.data.frame()
+
+  aa$group = da$group
+  row.names(aa) = da$group
+
   return(list(aa,wilcox = krusk,kruskal = sumkrusk))
 }
