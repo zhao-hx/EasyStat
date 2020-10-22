@@ -41,10 +41,18 @@ MuiPlotStackBar <- function(data = data,i,result = result,errbar = TRUE,...){
   levels(df_res $variable) = as.character(unique(df_res$variable))
 
   # Construct error line coordinates--
-  df_res = plyr::ddply(df_res,"group",transform,label_y = cumsum(Mean))
+  # df_res = plyr::ddply(df_res,"group",transform,label_y = cumsum(Mean))
   # Construct distinctive marker positions
-  df_res = plyr::ddply(df_res,"group", transform,  label_abc = cumsum(Mean) - 0.5*Mean)
+  df_res_sub = plyr::ddply(df_res,"group", summarize,label_y = cumsum(Mean),  label_abc = cumsum(Mean) - 0.5*Mean,
+                           variable = variable)
 
+  # df_res = cbind(df_res,df_res_sub[-1])
+
+
+
+
+
+  df_res <- df_res%>% inner_join(df_res_sub )
 
 
   # Factor rearrangement
@@ -52,7 +60,7 @@ MuiPlotStackBar <- function(data = data,i,result = result,errbar = TRUE,...){
 
 
   #--conbind plot data
-  plotdata <- df_res %>%
+    plotdata <- df_res %>%
     dplyr::left_join(abc,by = c("group","variable"))
 
   plotdata$variable = factor(plotdata$variable,levels =as.character(unique(df_res$variable))[length(levels(df_res$variable)):1])
@@ -63,11 +71,11 @@ MuiPlotStackBar <- function(data = data,i,result = result,errbar = TRUE,...){
     geom_bar(stat="identity",color="black", width=.6) +
     geom_text(aes(y = label_abc, label = abc))
 
+
   if (errbar == TRUE) {
-
   p <- p + geom_errorbar(aes(ymin=label_y-Sd, ymax=label_y +Sd), width=.2)
-
   }
+  p
   return(list(p,plotdata))
 }
 
