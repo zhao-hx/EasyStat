@@ -17,20 +17,33 @@
 
 
 
-ord_sig <- function(data = da,ID = "groups"){
-  data[,ID] = gsub(" ","",as.character(data[,ID]))
-  aa <- unique(as.character(data[,ID] ))
 
-  # sort(aa,decreasing =TRUE)
-  # sort(aa,decreasing =FALSE)
+ord_sig <- function(data = da,ID = NULL){
+ if (!is.null(ID)) {
+   data[,ID] = gsub(" ","",as.character(data[,ID]))
+   aa <- unique(as.character(data[,ID] ))
 
-  tmp <- data.frame(ori = sort(aa,decreasing =TRUE),new = sort(aa,decreasing =FALSE))
+   # sort(aa,decreasing =TRUE)
+   # sort(aa,decreasing =FALSE)
 
-  for (i in 1:nrow(data)) {
-    data[,ID][i] <- as.character(tmp$new[match(data[,ID][i],tmp$ori)])
+   tmp <- data.frame(ori = sort(aa,decreasing =TRUE),new = sort(aa,decreasing =FALSE))
 
+   for (i in 1:nrow(data)) {
+     data[,ID][i] <- as.character(tmp$new[match(data[,ID][i],tmp$ori)])
+
+   }
+
+ }
+
+if (is.null(ID)) {
+  for (i in 1:ncol(data)) {
+    aa <- unique(as.character(data[,i] ))
+    tmp <- data.frame(ori = sort(aa,decreasing =TRUE),new = sort(aa,decreasing =FALSE))
+    for (ii in 1:nrow(data)) {
+      data[,i][ii] <- as.character(tmp$new[match(data[,i][ii],tmp$ori)])
+    }
   }
-
+}
   return(data)
 
 }
