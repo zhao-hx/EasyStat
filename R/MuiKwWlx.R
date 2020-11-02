@@ -37,7 +37,7 @@ MuiKwWlx = function(data = data_wt,num = c(4:6)){
     colnames(aa)[1] = name
     aa$group = NULL
 
-    A=  cbind(A,aa)
+    A <- cbind(A,aa)
 
   }
 

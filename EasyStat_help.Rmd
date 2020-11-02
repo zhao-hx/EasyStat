@@ -23,7 +23,13 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 # 差异分析完整解决方案
-本次更新：
+
+2020年11月更新：
+- 将ord_sig函数内置到差异分析中，改变水平排布顺序，更加符合常规认识。,单个指标方差检验和非参数检验已完成
+- KwWlx分参数检验字母标记混乱问题修正。
+
+
+本次更新：2020年7月
 
 - 修改整个R包，包括包名；安装EasyStat包，本次安装包只要你可以用下载，应该可以安装成功。因为我已经将全部的依赖都写好了.
 - 增加多组展示同一张图的可视化方式。
@@ -107,11 +113,10 @@ norm.test会按照分组告诉大家是否符合正态分布。
 result= aovMcomper (data = data_wt, i= 6,method_Mc = "Tukey")
 
 
-
 # 提取多重比较结果
 result[[1]]
 
-
+# result[[1]] = ord_sig(data = result[[1]],ID = "groups")
 
 # groups group
 # CF      a     CF
@@ -182,14 +187,27 @@ res[[2]]
 
 ```{R}
 
+data_wt$fun
 # ?aovMuiBarPlot
 ###----使用方差检验结果和多重比较结果做展示：  柱状图展示
 PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="abc",result = result[[1]])
 #提取结果
-p <- PlotresultBar[[1]]
-p
+p1 <- PlotresultBar[[1]]
+
+
+PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="abc",result = res[[1]])
+#提取结果
+p2 <- PlotresultBar[[1]]
+
+
+library(patchwork)
+p1+p2
+
 
 ```
+
+#### 标记字母顺序修改ord_sig
+
 
 ```{R}
 
@@ -201,10 +219,7 @@ PlotresultBar = aovMuiBarPlot(data = data_wt, i= 6,sig_show ="abc",result =dator
 #提取结果
 p <- PlotresultBar[[1]]
 p
-# ggsave("1.png",p)
 
-#提取方差分析或非参数检验结果
-PlotresultBar[[2]]
 ```
 
 ```{R}
@@ -266,7 +281,7 @@ PlotresultBox[[2]]
 p = PlotresultBox[[1]]
 p
 
-ggsave("4.png",p)
+# ggsave("4.png",p)
 
 ```
 
@@ -279,7 +294,9 @@ PlotresultBox = aovMuiBoxP(data = data_wt, i= 6,sig_show ="line",result = result
 PlotresultBox[[2]]
 #提取图片
 p = PlotresultBox[[1]]
-ggsave("5.png",p)
+
+p
+# ggsave("5.png",p)
 
 ```
 
@@ -369,6 +386,8 @@ result = MuiaovMcomper(data = data_wt,num = c(4:6),method_Mc = "Tukey")
 #提取每个指标方差检验多重比较结果
 result
 
+# result = ord_sig(result, ID = NULL)
+
 ```
 同样，多个指标展示按照指标每列为一组检测结果。
 
@@ -384,6 +403,8 @@ result
 result = MuiKwWlx(data = data_wt,num = c(4:6))
 #提取每个指标非参数检验多重比较结果
 result
+
+# result = ord_sig(result, ID = NULL)
 
 ```
 
@@ -466,13 +487,16 @@ MuiPlotReBoxBar(data = data_wt,num = c(4:8),result = result,sig_show ="line")
 - ncol:代表分面展示每一行放几张图
 
 ```{R}
+
+library(ggplot2)
 # ?FacetMuiPlotresultBar
 # # #使用案例
 result = MuiaovMcomper(data = data_wt,num = c(4:7),method_Mc = "Tukey")
 result
 result1 = FacetMuiPlotresultBar(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4 )
 p <- result1[[1]]
-ggsave("10.png",p,width = 12,height = 6)
+p
+# ggsave("10.png",p,width = 12,height = 6)
 
 ```
 
