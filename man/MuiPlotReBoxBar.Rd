@@ -4,8 +4,13 @@
 \alias{MuiPlotReBoxBar}
 \title{Visualize multiple sets of data Scatter plot + barplot}
 \usage{
-MuiPlotReBoxBar(data = data_wt, num = c(4:6), result = result,
-  sig_show = "abc", path = "./MuiboxBar/")
+MuiPlotReBoxBar(
+  data = data_wt,
+  num = c(4:6),
+  result = result,
+  sig_show = "abc",
+  path = "./MuiboxBar/"
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data}

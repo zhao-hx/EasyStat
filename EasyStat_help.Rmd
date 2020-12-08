@@ -309,7 +309,7 @@ PlotresultBox = aovMuiBoxP(data = data_wt, i= 6,sig_show ="line",result = result
 PlotresultBox[[2]]
 #提取图片
 p = PlotresultBox[[1]]
-ggsave("6.png",p)
+# ggsave("6.png",p)
 
 ```
 
@@ -323,7 +323,9 @@ result[[1]]
 PlotresultBox = aovMuiBoxBarP(data = data_wt, i= 6,sig_show ="abc",result = result[[1]],ns = TRUE)
 #提取图片
 p = PlotresultBox[[1]]
-ggsave("7.png",p)
+
+p
+# ggsave("7.png",p)
 ```
 
 ```{R}
@@ -331,8 +333,9 @@ ggsave("7.png",p)
 PlotresultBox = aovMuiBoxBarP(data = data_wt, i= 6,sig_show ="line",result = result[[1]],ns = FALSE)
 #提取图片
 p = PlotresultBox[[1]]
+p
 
-ggsave("8.png",p)
+# ggsave("8.png",p)
 ```
 
 EasyStat包为什么能完美解决差异分析呢.因为他比你想象的要强大。下面使用连线形式展示差异，显著的差异按照标注星号，不显著的标注ns。
@@ -491,13 +494,30 @@ MuiPlotReBoxBar(data = data_wt,num = c(4:8),result = result,sig_show ="line")
 library(ggplot2)
 # ?FacetMuiPlotresultBar
 # # #使用案例
+# data_wt$group = factor( data_wt$group,levels = c("WT","CK","Rhi","CF"))
 result = MuiaovMcomper(data = data_wt,num = c(4:7),method_Mc = "Tukey")
 result
+
+
 result1 = FacetMuiPlotresultBar(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4 )
 p <- result1[[1]]
 p
+
 # ggsave("10.png",p,width = 12,height = 6)
 
+```
+#### 设置分面排布顺序
+
+fac.level参数，指定即可。
+
+```{R}
+
+colnames( data_wt)[4:7]
+
+result1 = FacetMuiPlotresultBar(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4,
+                                fac.level = c("fun","bac","AP","micro") )
+p <- result1[[1]]
+p
 ```
 
 ### 差异结果展示：分面展示箱线图：(FacetMuiPlotresultBox)
@@ -525,6 +545,18 @@ ggsave("11.png",p,width = 15,height = 6)
 ```
 
 
+#### 指定分面顺序
+
+
+```{R}
+
+colnames( data_wt)[4:7]
+
+result1 = FacetMuiPlotresultBox(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4,
+                                fac.level = c("fun","bac","AP","micro") )
+p <- result1[[1]]
+p
+```
 
 
 使用两种方法，我们可以对比非参数检验和方差检验结果是否一致
@@ -543,6 +575,17 @@ ggsave("12.png",p,width = 15,height = 6)
 
 ```
 
+#### 指定分面顺序
+
+```{R}
+
+colnames( data_wt)[4:7]
+
+result1 =FacetMuiPlotReBoxBar(data = data_wt,num = c(4:7),result = result,sig_show ="abc",ncol = 4,
+                                fac.level = c("fun","bac","AP","micro") )
+p <- result1[[1]]
+p
+```
 
 注意以上三种分面展示的目前仅支持字母标注显著性，连线形式的尚未添加。
 

@@ -20,7 +20,7 @@
 #' Microbiome 2018,DOI: \url{doi: 10.1186/s40168-018-0537-x}
 #' @export
 
-FacetMuiPlotresultBox = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3 ){
+FacetMuiPlotresultBox = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3,fac.level  = NULL ){
   for (N in num) {
 
     name = colnames(data[N])
@@ -46,8 +46,10 @@ FacetMuiPlotresultBox = function(data = data_wt,num = c(4:6),result = result,sig
     }
 
   }
-  head(A)
 
+  if (!is.null(fac.level)) {
+    A$name  = factor(A$name,levels = fac.level)
+  }
   p<-ggplot(A, aes(x=group , y=dd ))+ geom_boxplot(alpha=1, aes(fill=group)) +
     geom_jitter( position=position_jitter(0.17), size=0.1, alpha=0.5)+
     labs(x="", y="")+

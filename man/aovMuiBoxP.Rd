@@ -4,8 +4,13 @@
 \alias{aovMuiBoxP}
 \title{Variance test or non-parametric test results visualization, using boxplot}
 \usage{
-aovMuiBoxP(data = data_wt, i = 3, sig_show = "line",
-  result = result, ns = FALSE)
+aovMuiBoxP(
+  data = data_wt,
+  i = 3,
+  sig_show = "line",
+  result = result,
+  ns = FALSE
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data}

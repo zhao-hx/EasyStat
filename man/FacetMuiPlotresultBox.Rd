@@ -4,8 +4,14 @@
 \alias{FacetMuiPlotresultBox}
 \title{Use facets to show the results of variance analysis, box plot selected}
 \usage{
-FacetMuiPlotresultBox(data = data_wt, num = c(4:6), result = result,
-  sig_show = "abc", ncol = 3)
+FacetMuiPlotresultBox(
+  data = data_wt,
+  num = c(4:6),
+  result = result,
+  sig_show = "abc",
+  ncol = 3,
+  fac.level = NULL
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data;Enter the data frame, the first column is the sample number, the second column is the group, note that the group label must be set to group, and the third column and later are the indicators for measurement or collection.}

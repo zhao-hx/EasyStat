@@ -24,7 +24,7 @@
 
 
 
-FacetMuiPlotReBoxBar = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3 ){
+FacetMuiPlotReBoxBar = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3 ,fac.level  = NULL){
 
   for (N in num) {
 
@@ -57,14 +57,18 @@ FacetMuiPlotReBoxBar = function(data = data_wt,num = c(4:6),result = result,sig_
   databar<- dplyr::summarise(iris_groups, mean(dd), sd(dd))
   colnames(databar) = c("group","name","mean","sd")
 
-  head(databar)
+  if (!is.null(fac.level)) {
+    A$name  = factor(A$name,levels = fac.level)
+  }
+
   p = ggplot(A) +
-    geom_bar(data = databar,aes(x= group,y = mean,fill = group),stat = "identity", width = 0.4,position = "dodge",colour= "black") +
+    geom_bar(data = databar,aes(x= group,y = mean,fill = group),stat = "identity", position = "dodge") +
     geom_text(data=A, aes(x=group , y=y ,label=stat))+
-    geom_errorbar(data = databar,aes(x= group,y = mean,ymin=mean -sd, ymax=mean +sd),colour="black",width=0.1,size = 1)+
-    geom_jitter(aes(x=group, y=dd, fill=group),A,position=position_jitter(0.17), size=4, alpha=0.7,pch = 21,color = "black")+
+    geom_errorbar(data = databar,aes(x= group,y = mean,ymin=mean -sd, ymax=mean +sd),colour="black",width=0.1)+
+    geom_jitter(aes(x=group, y=dd, fill=group),A,position=position_jitter(0.17), alpha=0.7,pch = 21,color = "black")+
     labs(x="", y="")+
-   facet_wrap(.~name,scales="free_y",ncol  = ncol)
+   facet_wrap(.~name,scales="free_y",ncol  = ncol) +
+   guides(color = FALSE)
 
   return(list(p,table = A,bartable = databar))
 }

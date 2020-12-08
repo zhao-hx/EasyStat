@@ -4,8 +4,13 @@
 \alias{SingleStat}
 \title{A complete single-factor difference analysis process for single col data, including normal test, homogeneity analysis of variance, selection of variance analysis or non-parametric test, selection of candidate d visualization method.}
 \usage{
-SingleStat(data = data_wt, plot = "bar", method_Mc = "Tukey",
-  i = 4, sig_show = "abc")
+SingleStat(
+  data = data_wt,
+  plot = "bar",
+  method_Mc = "Tukey",
+  i = 4,
+  sig_show = "abc"
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data.Enter the data frame, the first column is the sample number,

@@ -4,8 +4,13 @@
 \alias{MuiPlotresultBar}
 \title{Visualize multiple sets of data  barplot}
 \usage{
-MuiPlotresultBar(data = data_wt, num = c(4:6), result = result,
-  sig_show = "abc", path = "./Muibar/")
+MuiPlotresultBar(
+  data = data_wt,
+  num = c(4:6),
+  result = result,
+  sig_show = "abc",
+  path = "./Muibar/"
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data}

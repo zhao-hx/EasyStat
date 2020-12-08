@@ -9,7 +9,7 @@ ord_sig(data = da, ID = "groups")
 \arguments{
 \item{data}{a data.frame contain the input data}
 
-\item{ID}{col index wtich need to reverse significance level}
+\item{ID}{col index wtich need to reverse significance level,if NULL was marked, would transform to each col.}
 }
 \value{
 data.frame
@@ -20,7 +20,7 @@ Reverse the significance level of letter marks
 \examples{
 # data(data_wt)
 result = KwWlx(data = data_wt, i= 4)
-datord <- ord_sig(data = result[[1]],ID = "groups")
+datord <- ord_sig(data = result[[1]],ID = NULL)
 }
 \references{
 Yuan J, Zhao J, Wen T, Zhao M, Li R, Goossens P, Huang Q, Bai Y, Vivanco JM, Kowalchuk GA, Berendsen RL, Shen Q

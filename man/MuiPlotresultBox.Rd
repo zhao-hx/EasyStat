@@ -4,8 +4,13 @@
 \alias{MuiPlotresultBox}
 \title{Visualize multiple sets of data Scatter plot + boxplot}
 \usage{
-MuiPlotresultBox(data = data_wt, num = c(4:6), result = result,
-  sig_show = "abc", path = "./Muibox/")
+MuiPlotresultBox(
+  data = data_wt,
+  num = c(4:6),
+  result = result,
+  sig_show = "abc",
+  path = "./Muibox/"
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data}

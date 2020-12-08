@@ -4,9 +4,17 @@
 \alias{MuiStat}
 \title{A complete single-factor difference analysis process for mui col data, including normal test, homogeneity analysis of variance, selection of variance analysis or non-parametric test, selection of candidate d visualization method.}
 \usage{
-MuiStat(data = data_wt, num = c(4, 5, 6), method_cv = "leveneTest",
-  method_Mc = "Tukey", sig_show = "abc", ncol = 2, plot = "bar",
-  plottype = "mui", path = "./output")
+MuiStat(
+  data = data_wt,
+  num = c(4, 5, 6),
+  method_cv = "leveneTest",
+  method_Mc = "Tukey",
+  sig_show = "abc",
+  ncol = 2,
+  plot = "bar",
+  plottype = "mui",
+  path = "./output"
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data;Enter the data frame, the first column is the sample number, the second column is the group, note that the group label must be set to group, and the third column and later are the indicators for measurement or collection.}

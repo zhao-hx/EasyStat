@@ -50,9 +50,8 @@ aovMuiBoxP = function(data = data_wt, i= 3,sig_show ="line",result = result,ns =
     geom_boxplot(alpha=1, outlier.size=0, size=0.7, width=0.5, fill="transparent") +
     labs(
       y=name_i)+
-    geom_jitter( position=position_jitter(0.17), size=1, alpha=0.7)+theme(legend.position="none")+
-    geom_hline(aes(yintercept=mean(data_box$dd)), colour="black", linetype=2) +
-    geom_vline(aes(xintercept=0), colour="black", linetype="dashed")
+    geom_jitter( position=position_jitter(0.17), size=1, alpha=0.7)+theme(legend.position="none")
+
   p
   if (sig_show == "abc") {
     p = p +

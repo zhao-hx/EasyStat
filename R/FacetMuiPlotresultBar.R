@@ -21,7 +21,8 @@
 
 
 
-FacetMuiPlotresultBar = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3,... ){
+FacetMuiPlotresultBar = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3,
+                                 fac.level  = NULL ){
   N = num[1]
   name = colnames(data[N])
 
@@ -57,9 +58,11 @@ FacetMuiPlotresultBar = function(data = data_wt,num = c(4:6),result = result,sig
   # head(A)
 
   # a = max(A$SD)*1.2
-
+  if (!is.null(fac.level)) {
+  A$name  = factor(A$name,levels = fac.level)
+  }
   p<-ggplot(A, aes(x=group , y=mean ))+
-    geom_bar(aes(colour= group,fill = group),stat = "identity", width = 0.4,position = "dodge") +
+    geom_bar(aes(fill = group),stat = "identity", width = 0.4,position = "dodge") +
     geom_bar(data = A, aes(x=1 , y= (mean + SD)*1.1),stat = "identity", width = 0.4,position = "dodge",alpha = 0) +
     geom_errorbar(aes(ymin=mean - SD,
                       ymax=mean+SD),

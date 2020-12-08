@@ -4,8 +4,13 @@
 \alias{GroupBar}
 \title{Variance test or non-parametric test results visualization, using boxbar}
 \usage{
-GroupBar(data = data_wt, num = c(4:6), result = result,
-  sig_show = "abc", ylimit = 1.2)
+GroupBar(
+  data = data_wt,
+  num = c(4:6),
+  result = result,
+  sig_show = "abc",
+  ylimit = 1.2
+)
 }
 \arguments{
 \item{data}{a data.frame contain the input data}

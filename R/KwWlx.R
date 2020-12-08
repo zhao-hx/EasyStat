@@ -16,9 +16,9 @@
 #' @export
 
 
-#--------------------------------------------非参数检验------------------------------
+#-------------------------------------------Non-parametric test-------------------------------
 KwWlx = function(data = data_wt, i= 3){
-
+# i = 17
   ss <- data %>%
     dplyr::select("group",count = i)
 
@@ -28,28 +28,35 @@ KwWlx = function(data = data_wt, i= 3){
 
   sumkrusk=as.data.frame(krusk)
   sumkrusk
-  #<0.05，It shows that there are differences between multiple groups, you can conduct pairwise non-parametric tests, and mark the letters
+  #<0.05,It shows that there are differences between multiple groups, you can conduct pairwise non-parametric tests, and mark the letters
   krusk <- ggpubr::compare_means(count ~ group, data=ss, method = "wilcox.test")
   xx=as.data.frame(krusk)
-  # xx$group1
-  # wilcox_levels = paste(xx$group1,xx$group2,sep = "-")
-  # str(wilcox_levels )
-  wilcox_levels = xx$p
-  names(wilcox_levels) =  paste(xx$group1,xx$group2,sep = "-")
+
+  #mean for order
+  da <- ss %>%
+    dplyr::group_by(group) %>%
+    dplyr::summarise( mean = mean(count))  %>%
+    dplyr::arrange(desc(mean)) %>%
+    as.data.frame()
+
+  if (as.character(da$group)[1]  %in% xx$group1) {
+    xx = xx[order(factor(xx$group1,as.character(da$group))),]
+    wilcox_levels = xx$p
+    names(wilcox_levels) =  paste(xx$group1,xx$group2,sep = "-")
+  } else {
+    xx = xx[order(factor(xx$group2,as.character(da$group))),]
+    wilcox_levels = xx$p
+    names(wilcox_levels) =  paste(xx$group2,xx$group1,sep = "-")
+  }
+
+
   wilcox.labels <- data.frame(multcompView::multcompLetters(wilcox_levels, threshold = 0.05)['Letters'])
   colnames(wilcox.labels) = "groups"
   aa = wilcox.labels
   aa$group = row.names(aa)
   aa
   aa =ord_sig(data = aa,ID = "groups")
-  # da <- ss %>%
-  #   dplyr::group_by(group) %>%
-  #   dplyr::summarise( mean = mean(count))  %>%
-  #   dplyr::arrange(desc(mean)) %>%
-  #   as.data.frame()
-  #
-  # aa$group = da$group
-  # row.names(aa) = da$group
+
 
   return(list(aa,wilcox = krusk,kruskal = sumkrusk))
 }
