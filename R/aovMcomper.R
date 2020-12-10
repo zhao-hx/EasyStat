@@ -18,6 +18,7 @@
 #' @export
 
 
+
 aovMcomper = function( data = data_wt, i= 3,method_Mc = "Tukey"){
   ss <- data %>%
     dplyr::select("group",count = i)
@@ -46,6 +47,7 @@ aovMcomper = function( data = data_wt, i= 3,method_Mc = "Tukey"){
     out <- agricolae::LSD.test(model,"group", p.adj="none")
     aa = out$group#
     aa$group = row.names(aa)
+    aa = aa[2:3]
     aa
   }
   #SNK method (Student-Newman-Keuls)The results are similar to LSD.test.
@@ -55,7 +57,7 @@ aovMcomper = function( data = data_wt, i= 3,method_Mc = "Tukey"){
 
     aa$group = row.names(aa)
     stat = aa
-    aa
+    aa = aa[2:3]
   }
 
   #Duncan
@@ -67,6 +69,7 @@ aovMcomper = function( data = data_wt, i= 3,method_Mc = "Tukey"){
     aa$group = row.names(aa)
     stat = aa
     aa
+    aa = aa[2:3]
   }
 
   #Scheffe features：The number of samples in each group is equal or unequal, but it is more used if the number of samples in each group is not equal;
@@ -77,8 +80,8 @@ aovMcomper = function( data = data_wt, i= 3,method_Mc = "Tukey"){
 
     aa$group = row.names(aa)
     stat = aa
-    aa
+    aa = aa[2:3]
   }
-  aa =ord_sig(data = aa,ID = "groups")
+  # aa =ord_sig(data = aa,ID = "groups")
   return(list(Muicomper = aa,model))
 }

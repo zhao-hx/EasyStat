@@ -21,6 +21,7 @@
 
 
 
+
 FacetMuiPlotresultBar = function(data = data_wt,num = c(4:6),result = result,sig_show ="abc",ncol = 3,
                                  fac.level  = NULL ){
   N = num[1]

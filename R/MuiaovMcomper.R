@@ -17,25 +17,33 @@
 #' Microbiome 2018,DOI: \url{doi: 10.1186/s40168-018-0537-x}
 #' @export
 
-
+# result = MuiaovMcomper(data = data_wt,num = c(4:6),method_Mc = "Tukey")
+# data = data1
+# num = c(3:12)
+# method_Mc = "LSD"
+#
+# N = 10
 
 MuiaovMcomper = function(data = data_wt,num = c(4:6),method_Mc = "Tukey"){
   N = num[1]
 
-  result = aovMcomper (data = data, i= N,method_Mc = "Tukey")
+  result = aovMcomper (data = data, i= N,method_Mc = method_Mc)
   aa = result[[1]]
   name = colnames(data[N])
   colnames(aa)[1] = name
   aa$group = NULL
   A = aa
+
   for (N in num[-1]) {
-    result = aovMcomper (data = data, i= N,method_Mc = "Tukey")
+    result = aovMcomper (data = data, i= N,method_Mc = method_Mc)
     aa = result[[1]]
     name = colnames(data[N])
 
     colnames(aa)[1] = name
+    aa <- aa[match(row.names(A),row.names(aa)),]
     aa$group = NULL
-    A=  cbind(A,aa)
+    A =  cbind(A,aa)
   }
+
   return(A)
 }
