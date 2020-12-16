@@ -23,7 +23,7 @@
 
 SingleStat = function(data = data_wt,plot = "bar",method_Mc = "Tukey",i= 4,sig_show ="abc"){
 
-  NorCV = NorNorCVTest(data = data_wt, i= i,method_cv = "leveneTest")
+  NorCV = NorNorCVTest(data = data, i= i,method_cv = "leveneTest")
   #
   a = NorCV[[1]]
   p1 = length(a$p.value[-dim(a)[1]][!a$p.value[-dim(a)[1]] >= 0.05]) == 0
@@ -31,25 +31,25 @@ SingleStat = function(data = data_wt,plot = "bar",method_Mc = "Tukey",i= 4,sig_s
 
 
   if (p1!= 0& p2 >.05) {
-    result= aovMcomper (data = data_wt, i= i,method_Mc = "Tukey")
+    result= aovMcomper (data = data, i= i,method_Mc = "Tukey")
     A = print("aov")
     A
   } else if (p1  != 0| p2 <.05){
-    result = KwWlx(data = data_wt, i= i)
+    result = KwWlx(data = data, i= i)
     A = print("wlx")
     A
   }
 
   if (plot == "bar") {
-    PlotresultBar = aovMuiBarPlot(data = data_wt, i= i,sig_show =sig_show,result = result[[1]])
+    PlotresultBar = aovMuiBarPlot(data = data, i= i,sig_show =sig_show,result = result[[1]])
     p = PlotresultBar[[1]]
 
   } else if (plot == "box"){
-    PlotresultBox = aovMuiBoxP(data = data_wt, i= i,sig_show =sig_show,result = result[[1]])
+    PlotresultBox = aovMuiBoxP(data = data, i= i,sig_show =sig_show,result = result[[1]])
     p = PlotresultBox[[1]]
 
   }else if (plot == "boxbar"){
-    PlotresultBox = aovMuiBoxBarP(data = data_wt, i= i,sig_show =sig_show,result = result[[1]])
+    PlotresultBox = aovMuiBoxBarP(data = data, i= i,sig_show =sig_show,result = result[[1]])
     p = PlotresultBox[[1]]
 
   }

@@ -17,12 +17,7 @@
 #' Microbiome 2018,DOI: \url{doi: 10.1186/s40168-018-0537-x}
 #' @export
 
-# result = MuiaovMcomper(data = data_wt,num = c(4:6),method_Mc = "Tukey")
-# data = data1
-# num = c(3:12)
-# method_Mc = "LSD"
-#
-# N = 10
+
 
 MuiaovMcomper = function(data = data_wt,num = c(4:6),method_Mc = "Tukey"){
   N = num[1]

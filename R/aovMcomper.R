@@ -74,10 +74,8 @@ aovMcomper = function( data = data_wt, i= 3,method_Mc = "Tukey"){
 
   #Scheffe features：The number of samples in each group is equal or unequal, but it is more used if the number of samples in each group is not equal;
   if (method_Mc == "scheffe") {
-    # library("agricolae")
     out <-agricolae::scheffe.test (model,"group")
     aa = out$groups#  View label of each group
-
     aa$group = row.names(aa)
     stat = aa
     aa = aa[2:3]
